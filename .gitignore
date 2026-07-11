@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+dataset/
+*.csv
+venv/
+.env
+
+# ML
+*.pkl
+
+# Uploads
+uploads/
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+dataset/
+*.csv
+venv/
+.env
+__pycache__/
+node_modules/
