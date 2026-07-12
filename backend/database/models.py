@@ -1,3 +1,4 @@
+
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from datetime import datetime
 
@@ -15,10 +16,8 @@ class User(Base):
 
     password = Column(String, nullable=False)
 
-    role = Column(String, default="analyst")
+    role = Column(String, default="user")
 
-from sqlalchemy import Column, Integer, String, Float, DateTime
-from datetime import datetime
 
 class Transaction(Base):
     __tablename__ = "transactions"
