@@ -12,27 +12,27 @@ import Fraudchart from "../components/Fraudchart";
 import AIAnalysis from "../components/AIAnalysis";
 
 function Dashboard() {
-
   const [transactions, setTransactions] = useState([]);
 
   const [summary, setSummary] = useState({
     total_transactions: 0,
-    fraud_detected: 0
+    fraud_detected: 0,
   });
 
   const handleUpload = (data) => {
-
     setTransactions(data.results);
 
     setSummary({
       total_transactions: data.total_transactions,
-      fraud_detected: data.fraud_detected
+      fraud_detected: data.fraud_detected,
     });
-
   };
 
-  return (
+  const moneyProtected = transactions
+    .filter((t) => t.prediction === 1)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
+  return (
     <div className="dashboard">
 
       <Sidebar />
@@ -41,63 +41,77 @@ function Dashboard() {
 
         <Navbar />
 
+        <div className="welcome-card">
+
+          <div>
+
+            <h1>🛡 Sentinel AI Command Center</h1>
+
+            <p>
+              AI Powered Financial Fraud Intelligence Platform
+            </p>
+
+          </div>
+
+          <div className="status-online">
+
+            <span className="pulse"></span>
+
+            AI Engine Online
+
+          </div>
+
+        </div>
+
         <div className="cards">
 
           <Statscard
             title="Transactions"
             value={summary.total_transactions}
-            color="#2563eb"
+            color="#2563EB"
           />
 
           <Statscard
-            title="Frauds"
+            title="Fraud Alerts"
             value={summary.fraud_detected}
-            color="#dc2626"
+            color="#DC2626"
           />
 
           <Statscard
-            title="Safe"
-            value={
-              summary.total_transactions -
-              summary.fraud_detected
-            }
-            color="#16a34a"
+            title="Money Protected"
+            value={`₹${moneyProtected}`}
+            color="#16A34A"
           />
 
           <Statscard
             title="Accuracy"
             value="99.9%"
-            color="#f59e0b"
+            color="#F59E0B"
           />
 
         </div>
 
-<Uploadbox onUpload={handleUpload} />
+        <Uploadbox onUpload={handleUpload} />
 
-<Fraudchart
-    total={summary.total_transactions}
-    fraud={summary.fraud_detected}
-/>
+        <Fraudchart
+          total={summary.total_transactions}
+          fraud={summary.fraud_detected}
+        />
 
-<br />
+        <TransactionTable data={transactions} />
 
-<TransactionTable
-    data={transactions}
-/>
-<AIAnalysis
-    transaction={
-        transactions.length > 0
-            ? transactions[0]
-            : null
-    }
-/>
+        <AIAnalysis
+          transaction={
+            transactions.length > 0
+              ? transactions[0]
+              : null
+          }
+        />
 
       </div>
 
     </div>
-
   );
-
 }
 
 export default Dashboard;

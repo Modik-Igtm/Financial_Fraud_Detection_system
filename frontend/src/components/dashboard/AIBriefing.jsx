@@ -1,36 +1,40 @@
+
 import "./AIBriefing.css";
 
-function AIBriefing() {
+function AIBriefing({ total, fraud }) {
 
-  return (
+    const safe = total - fraud;
 
-    <div className="briefing">
+    return (
 
-      <h2>🧠 AI Daily Briefing</h2>
+        <div className="briefing">
 
-      <p>
+            <h2>🧠 AI Daily Briefing</h2>
 
-        Good morning.
+            <p>
 
-        Sentinel AI analysed today's transactions.
+                Sentinel AI analysed today's uploaded transactions.
 
-      </p>
+            </p>
 
-      <ul>
+            <ul>
 
-        <li>34 suspicious transactions detected.</li>
+                <li>Total Transactions : {total}</li>
 
-        <li>Highest fraud risk between 1 AM - 3 AM.</li>
+                <li>Fraud Alerts : {fraud}</li>
 
-        <li>Most risky payment method: UPI.</li>
+                <li>Safe Transactions : {safe}</li>
 
-        <li>Recommendation: Monitor new devices.</li>
+                <li>
+                    Recommendation :
+                    Review all High-Risk transactions immediately.
+                </li>
 
-      </ul>
+            </ul>
 
-    </div>
+        </div>
 
-  );
+    );
 
 }
 

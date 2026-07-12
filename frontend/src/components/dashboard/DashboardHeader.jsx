@@ -1,38 +1,30 @@
+
 import "./DashboardHeader.css";
+import DashboardHeader from "../components/dashboard/DashboardHeader";
+import AIBriefing from "../components/dashboard/AIBriefing";
 
 function DashboardHeader() {
-  const hour = new Date().getHours();
 
-  let greeting = "Good Evening";
+    const hour = new Date().getHours();
 
-  if (hour < 12) greeting = "Good Morning";
-  else if (hour < 18) greeting = "Good Afternoon";
+    let greeting = "Good Evening";
 
-  return (
-    <div className="dashboard-header">
+    if (hour < 12) greeting = "Good Morning";
+    else if (hour < 18) greeting = "Good Afternoon";
 
-      <div>
+   
+    return (
+  <div className="dashboard">
+    <Sidebar />
 
-        <h1>{greeting}, Analyst 👋</h1>
-
-        <p>
-
-          Welcome back to Sentinel AI Command Center
-
-        </p>
-
-      </div>
-
-      <div className="status">
-
-        <span className="online-dot"></span>
-
-        AI Engine Online
-
-      </div>
-
+    <div className="main-content">
+      <Navbar />
+      <h1>Dashboard is working ✅</h1>
     </div>
-  );
+  </div>
+);
+   
+    
 }
 
 export default DashboardHeader;

@@ -1,15 +1,17 @@
 
-import Investigation from "./pages/Investigation";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-<Routes>
+import Dashboard from "./pages/Dashboard";
 
-<Route path="/" element={<Landing />} />
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
-<Route path="/dashboard" element={<Dashboard />} />
-
-<Route
-path="/investigation/:id"
-element={<Investigation />}
-/>
-
-</Routes>
+export default App;
