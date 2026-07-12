@@ -1,7 +1,15 @@
-import Dashboard from "./pages/Dashboard";
 
-function App() {
-  return <Dashboard />;
-}
+import Investigation from "./pages/Investigation";
 
-export default App;
+<Routes>
+
+<Route path="/" element={<Landing />} />
+
+<Route path="/dashboard" element={<Dashboard />} />
+
+<Route
+path="/investigation/:id"
+element={<Investigation />}
+/>
+
+</Routes>

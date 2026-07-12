@@ -1,59 +1,132 @@
-function TransactionTable({ data }) {
 
-  if (!data || data.length === 0) {
-    return <h3>No Transactions Uploaded</h3>;
-  }
+import "./TransactionTable.css";
+import { useNavigate } from "react-router-dom";
 
-  return (
+function TransactionTable({ data, onInvestigate }) {
 
-    <table className="table">
+    if (!data || data.length === 0) {
+        return (
+            <div className="empty-state">
+                No Transactions Uploaded
+            </div>
+        );
+    }
 
-      <thead>
+    return (
 
-        <tr>
+        <div className="table-container">
 
-          <th>ID</th>
-          <th>Amount</th>
-          <th>Prediction</th>
-          <th>Confidence</th>
+            <div className="table-header">
 
-        </tr>
+                <h2>Live Transaction Monitor</h2>
 
-      </thead>
+                <p>
+                    Monitor suspicious digital payment activity
+                </p>
 
-      <tbody>
+            </div>
 
-        {data.map((item) => (
+            <table className="transaction-table">
 
-          <tr key={item.transaction_id}>
+                <thead>
 
-            <td>{item.transaction_id}</td>
+                    <tr>
 
-            <td>₹ {item.amount}</td>
+                        <th>ID</th>
 
-            <td>
+                        <th>Amount</th>
 
-              {item.prediction === 1
-                ? "Fraud"
-                : "Safe"}
+                        <th>Risk</th>
 
-            </td>
+                        <th>Confidence</th>
 
-            <td>
+                        <th>Status</th>
 
-              {(item.confidence * 100).toFixed(2)}%
+                        <th>Action</th>
 
-            </td>
+                    </tr>
 
-          </tr>
+                </thead>
 
-        ))}
+                <tbody>
 
-      </tbody>
+                    {data.map((item) => {
 
-    </table>
+                        const confidence =
+                            (item.confidence * 100).toFixed(1);
 
-  );
+                        return (
+
+                            <tr key={item.transaction_id}>
+
+                                <td>{item.transaction_id}</td>
+
+                                <td>₹ {item.amount}</td>
+
+                                <td>
+
+                                    {item.prediction === 1
+                                        ? "🔴 High"
+                                        : "🟢 Low"}
+
+                                </td>
+
+                                <td>
+
+                                    {confidence}%
+
+                                </td>
+
+                                <td>
+
+                                    <span
+                                        className={
+                                            item.prediction === 1
+                                                ? "badge danger"
+                                                : "badge success"
+                                        }
+                                    >
+
+                                        {item.prediction === 1
+                                            ? "Fraud"
+                                            : "Safe"}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                          <button
+className="investigate-btn"
+onClick={() =>
+navigate(
+`/investigation/${item.transaction_id}`,
+{
+state:item
+})
+}
+>
+
+Investigate
+
+</button>
+
+                                </td>
+
+                            </tr>
+
+                        );
+
+                    })}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    );
 
 }
 
