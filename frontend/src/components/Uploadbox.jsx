@@ -1,68 +1,63 @@
+
 import { useState } from "react";
 import api from "../services/api";
 
-function UploadBox() {
-    const [file, setFile] = useState(null);
-    const [message, setMessage] = useState("");
+function Uploadbox({ onUpload }) {
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    const uploadFile = async () => {
+  const uploadFile = async () => {
+    if (!file) {
+      alert("Please select a CSV file.");
+      return;
+    }
 
-        if (!file) {
-            alert("Please select a CSV file.");
-            return;
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      setLoading(true);
+
+      const response = await api.post(
+        "/transactions/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         }
+      );
 
-        const formData = new FormData();
-        formData.append("file", file);
+      onUpload(response.data);
 
-        try {
+      alert("CSV uploaded successfully!");
 
-            const response = await api.post(
-                "/transactions/upload",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
-            );
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            console.log(response.data);
+  return (
+    <div className="upload-box">
 
-            setMessage("✅ File uploaded successfully!");
+      <input
+        type="file"
+        accept=".csv"
+        onChange={(e) => setFile(e.target.files[0])}
+      />
 
-        } catch (error) {
+      <button
+        onClick={uploadFile}
+        disabled={loading}
+      >
+        {loading ? "Uploading..." : "Upload CSV"}
+      </button>
 
-            console.error(error);
-
-            setMessage("❌ Upload failed.");
-
-        }
-
-    };
-
-    return (
-
-        <div>
-
-            <input
-                type="file"
-                accept=".csv"
-                onChange={(e) => setFile(e.target.files[0])}
-            />
-
-            <br /><br />
-
-            <button onClick={uploadFile}>
-                Upload CSV
-            </button>
-
-            <p>{message}</p>
-
-        </div>
-
-    );
-
+    </div>
+  );
 }
 
-export default UploadBox;
+export default Uploadbox;

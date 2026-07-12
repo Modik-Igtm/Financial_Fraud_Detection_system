@@ -1,60 +1,103 @@
-import "./Dashboard.css";
-import UploadBox from "../components/UploadBox";
 
+import { useState } from "react";
+
+import "./Dashboard.css";
+
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import Statscard from "../components/Statscard";
+import Uploadbox from "../components/Uploadbox";
+import TransactionTable from "../components/TransactionTable";
+import Fraudchart from "../components/Fraudchart";
+import AIAnalysis from "../components/AIAnalysis";
 
 function Dashboard() {
+
+  const [transactions, setTransactions] = useState([]);
+
+  const [summary, setSummary] = useState({
+    total_transactions: 0,
+    fraud_detected: 0
+  });
+
+  const handleUpload = (data) => {
+
+    setTransactions(data.results);
+
+    setSummary({
+      total_transactions: data.total_transactions,
+      fraud_detected: data.fraud_detected
+    });
+
+  };
+
   return (
+
     <div className="dashboard">
 
-      {/* Sidebar */}
-      <div className="sidebar">
-        <h2>AI Fraud Detector</h2>
+      <Sidebar />
 
-        <ul>
-          <li>🏠 Dashboard</li>
-          <li>📂 Upload CSV</li>
-          <li>📊 Predictions</li>
-          <li>🤖 AI Analysis</li>
-          <li>📄 Reports</li>
-        </ul>
-      </div>
+      <div className="main-content">
 
-      {/* Main Content */}
-      <div className="content">
-
-        <h1>Financial Fraud Detection Dashboard</h1>
+        <Navbar />
 
         <div className="cards">
 
-          <div className="card">
-            <h3>Total Transactions</h3>
-            <h2>0</h2>
-          </div>
+          <Statscard
+            title="Transactions"
+            value={summary.total_transactions}
+            color="#2563eb"
+          />
 
-          <div className="card">
-            <h3>Fraud Detected</h3>
-            <h2>0</h2>
-          </div>
+          <Statscard
+            title="Frauds"
+            value={summary.fraud_detected}
+            color="#dc2626"
+          />
 
-          <div className="card">
-            <h3>Safe Transactions</h3>
-            <h2>0</h2>
-          </div>
+          <Statscard
+            title="Safe"
+            value={
+              summary.total_transactions -
+              summary.fraud_detected
+            }
+            color="#16a34a"
+          />
 
-          <div className="card">
-            <h3>Accuracy</h3>
-            <h2>0%</h2>
-          </div>
+          <Statscard
+            title="Accuracy"
+            value="99.9%"
+            color="#f59e0b"
+          />
 
         </div>
-<div className="upload">
-    <UploadBox />
-</div>
+
+<Uploadbox onUpload={handleUpload} />
+
+<Fraudchart
+    total={summary.total_transactions}
+    fraud={summary.fraud_detected}
+/>
+
+<br />
+
+<TransactionTable
+    data={transactions}
+/>
+<AIAnalysis
+    transaction={
+        transactions.length > 0
+            ? transactions[0]
+            : null
+    }
+/>
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default Dashboard;
