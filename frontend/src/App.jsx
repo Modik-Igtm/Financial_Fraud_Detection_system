@@ -1,15 +1,27 @@
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard";
+import MainLayout from "./layouts/MainLayout";
+
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Assistant from "./pages/Assistant/Assistant";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+
+      <MainLayout>
+
+        <Routes>
+
+          <Route path="/" element={<Dashboard />} />
+
+          <Route path="/assistant" element={<Assistant />} />
+
+        </Routes>
+
+      </MainLayout>
+
     </BrowserRouter>
   );
 }
