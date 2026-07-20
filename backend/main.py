@@ -10,6 +10,7 @@ from routes.auth import router as auth_router
 from routes.transaction import router as transaction_router
 from routes.predict import router as predict_router
 from routes.ai import router as ai_router
+from routes.dashboard import router as dashboard_router
 
 # Create all database tables
 Base.metadata.create_all(bind=engine)
@@ -35,6 +36,7 @@ app.include_router(auth_router)
 app.include_router(transaction_router)
 app.include_router(predict_router)
 app.include_router(ai_router)
+app.include_router(dashboard_router)
 
 
 @app.get("/")
